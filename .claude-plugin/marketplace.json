@@ -1,0 +1,15 @@
+{
+  "name": "clogo",
+  "owner": {
+    "name": "Ben Warner",
+    "url": "https://github.com/benrwarner"
+  },
+  "description": "Agent skill that replaces placeholder 'initial in a square' logos with real, relevant SVG logos, favicons and app icons.",
+  "plugins": [
+    {
+      "name": "clogo",
+      "source": "./",
+      "description": "Design real, relevant SVG logos, favicons and app icons by default instead of placeholder initials."
+    }
+  ]
+}

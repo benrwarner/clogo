@@ -1,0 +1,20 @@
+{
+  "name": "clogo",
+  "version": "0.1.0",
+  "description": "Makes coding agents design real, relevant SVG logos, favicons and app icons by default (icons from Iconify, Google Fonts outlined to paths, render-and-critique loop) instead of a coloured square with an initial.",
+  "keywords": [
+    "logo",
+    "favicon",
+    "svg",
+    "branding",
+    "design",
+    "icons"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Ben Warner",
+    "url": "https://github.com/benrwarner"
+  },
+  "homepage": "https://github.com/benrwarner/clogo",
+  "repository": "https://github.com/benrwarner/clogo"
+}
