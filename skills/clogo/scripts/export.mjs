@@ -3,8 +3,10 @@
 //
 //   node export.mjs --mark mark.svg [--logo logo.svg] [--logo-dark logo-dark.svg]
 //                   [--tile "#1c1412"] [--theme "#b4572e"] [--name "Brewly"] [--short-name "Brewly"]
-//                   [--out public] [--base /]
+//                   [--out public] [--base /] [--mark-dark mark-dark.svg]
 //
+// --mark-dark: variant of the mark for dark browser themes; favicon.svg then switches automatically
+//              via prefers-color-scheme (favicon.ico and PNG icons use the light mark).
 // --tile: background colour for icons that cannot be transparent (apple-touch-icon, maskable PWA icon).
 //         Pick the brand's dark or primary colour so the mark has contrast on it.
 import fs from 'node:fs';
@@ -67,7 +69,19 @@ try {
   const written = [];
   const put = (f, data) => { writeFile(path.join(outDir, f), data); written.push(f); };
 
-  put('favicon.svg', svgo(square(mark, 512, 1)));
+  if (args['mark-dark']) {
+    // One favicon.svg that switches with the browser theme. Each mark is optimised on its own with
+    // prefixed ids (so masks/gradients can't collide); the combined file is NOT re-optimised, because
+    // SVGO's inlineStyles would turn the media-query CSS into inline styles and break the switch.
+    const prefixed = (s, p) => optimize(s, { plugins: [{ name: 'prefixIds', params: { prefix: p } }] }).data;
+    const light = square(prefixed(mark, 'l'), 512, 1).replace(/^<svg[^>]*>|<\/svg>$/g, '');
+    const dark = square(prefixed(svgo(fs.readFileSync(args['mark-dark'], 'utf8')), 'd'), 512, 1).replace(/^<svg[^>]*>|<\/svg>$/g, '');
+    put('favicon.svg', '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">' +
+      '<style>.d{display:none}@media (prefers-color-scheme:dark){.l{display:none}.d{display:inline}}</style>' +
+      `<g class="l">${light}</g><g class="d">${dark}</g></svg>\n`);
+  } else {
+    put('favicon.svg', svgo(square(mark, 512, 1)));
+  }
   const icoPngs = [16, 32, 48].map((s) => ({ size: s, png: renderPng(square(mark, s, 1), { width: s }).png }));
   put('favicon.ico', ico(icoPngs));
   put('apple-touch-icon.png', renderPng(square(mark, 180, 0.7, tile), { width: 180 }).png);

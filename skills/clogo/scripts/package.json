@@ -1,6 +1,6 @@
 {
   "name": "clogo-scripts",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "description": "Helper scripts for the clogo agent skill",
@@ -12,5 +12,8 @@
   "engines": {
     "node": ">=18"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test test/smoke.test.mjs"
+  }
 }

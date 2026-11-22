@@ -9,7 +9,8 @@
     {
       "name": "clogo",
       "source": "./",
-      "description": "Design real, relevant SVG logos, favicons and app icons by default instead of placeholder initials."
+      "description": "Design real, relevant SVG logos, favicons and app icons by default instead of placeholder initials.",
+      "version": "1.0.0"
     }
   ]
 }

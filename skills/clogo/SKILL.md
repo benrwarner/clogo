@@ -92,16 +92,21 @@ show them the preview sheet path and your pick, and offer the alternatives.
 
 ## 6. Variants
 - `.logo/logo-dark.svg` if the lockup fails contrast on dark backgrounds (lint tells you).
+- `.logo/mark-dark.svg` if the **mark** fails on dark (e.g. a navy hull vanishes in a dark browser
+  tab). Pass it to export with `--mark-dark` and `favicon.svg` will switch automatically with the
+  user's light/dark theme.
 - Bake real colours in — no `currentColor` in exported files.
 
 ## 7. Export and wire it in
 ```bash
-node scripts/export.mjs --mark .logo/a-mark.svg --logo .logo/a-logo.svg [--logo-dark .logo/logo-dark.svg] \
+node scripts/export.mjs --mark .logo/a-mark.svg --logo .logo/a-logo.svg [--logo-dark .logo/logo-dark.svg] [--mark-dark .logo/mark-dark.svg] \
   --tile "#3b2416" --theme "#b4572e" --name "Brewly" --out public
 ```
 Produces `favicon.svg`, `favicon.ico` (16/32/48), `apple-touch-icon.png` (180, on `--tile`),
 `icon-192/512.png`, `icon-maskable-512.png`, `logo.svg`, `logo.png`, `site.webmanifest`,
-`head-snippet.html`. Choose `--out` and wiring by framework:
+`head-snippet.html`. Paths default to the site root (`/favicon.svg`); if the files live in a
+subfolder or the page is opened from disk, pass `--base assets/` (or `--base ''`) so the manifest and
+`<head>` tags use matching relative paths. Choose `--out` and wiring by framework:
 - **Next.js (app router)**: export to `public/`, then also copy `favicon.ico` → `app/favicon.ico`,
   `favicon.svg` → `app/icon.svg`, `apple-touch-icon.png` → `app/apple-icon.png` (Next generates the
   tags; delete the default `app/favicon.ico` first). Add `manifest` in `metadata` if it's a PWA.
